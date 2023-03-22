@@ -1,4 +1,4 @@
-from review import Review
+from lib.review import Review
 class Reader:
     
     usernames = []
@@ -22,6 +22,7 @@ class Reader:
     
     def get_reviews(self):
         return [rev for rev in Review.all if rev.reader == self]
+        # list of all the reviews by the reader
         # remember that rev.reader is AN OBJECT
 
     def get_reviewed_books(self):
@@ -33,7 +34,7 @@ class Reader:
     def rate_book(self, book, rating):
         if self.reviewed_book(book):
             for review in self.get_reviews():
-                if(review.get_book == book):
+                if(review.get_book() == book):
                     # get_book comes from the Review class
                     review.rating = rating
         else:

@@ -1,9 +1,13 @@
-from review import Review
+from lib.review import Review
+
 class Book:
-    
+
+    all = []
+
     def __init__(self, title):
         self.title = title
         # self.set_title(title)
+        Book.all.append(self)
 
     # title property goes here!
     def get_title(self):
@@ -17,13 +21,21 @@ class Book:
 
     def average_rating(self):
         ratings = [rev.get_rating() for rev in Review.all if rev.get_book() == self]
+   
+        if len(ratings) == 0:
+            return 0
+        
         return sum(ratings)/ len(ratings)
 
     @classmethod
     def highest_rated(cls):
-        reviews = Review.reviews
-        max_review = reviews[0]
-        for review in reviews:
-            if(review.rating > max_review.rating):
-                max_review = review 
+        result=[]
+        for book in cls.all:
+            result.append(book.average_rating())
+        return [book.title for book in cls.all if book.average_rating() == max(result)]
+    
+
+
+
+        
 
